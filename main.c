@@ -13,6 +13,7 @@
     0x64000 <- sflash0s0x32 (emc_ipl)
     0xC4000 <- sflash0s0x33 (eap_kbl)
     0x144000 <- sflash0s0x34 (wifi fw)
+	0x144000 <- sflash0s0x38 (nvs)
     0x204000 <- sflash0s1.cryptx2b (sam_ipl)
     0x242000 <- sflash0s1.cryptx2 (sam_ipl)
     0x280000 <- sflash0s1.cryptx1 (idata)
