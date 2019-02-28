@@ -29,7 +29,8 @@ typedef struct
 	unsigned char emc_iplb[0x60000];
 	unsigned char emc_ipl[0x60000];
 	unsigned char eap_kbl[0x80000];
-	unsigned char wifi_fw[0xC0000];
+	unsigned char wifi_fw[0x80000];
+	unsigned char nvs[0x40000];
 	unsigned char sam_iplb[0x3E000];
 	unsigned char sam_ipl[0x3E000];
 	unsigned char idata[0x80000];
@@ -160,6 +161,14 @@ int main(int argc, char **argv){
 	fl = fopen(out,"wb");
 	
 	fwrite(entries->blank,sizeof(entries->blank),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/nvs.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->nvs,sizeof(entries->nvs),1,fl);
 	
 	fclose(fl);
 	
