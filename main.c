@@ -26,12 +26,19 @@
 
 typedef struct
 {
-	unsigned char header[0x4000];
+	unsigned char header[0x1000];
+	unsigned char unk[0x1000];
+	unsigned char mbr1[0x1000];
+	unsigned char mbr2[0x1000];
 	unsigned char emc_iplb[0x60000];
 	unsigned char emc_ipl[0x60000];
 	unsigned char eap_kbl[0x80000];
 	unsigned char wifi_fw[0x80000];
-	unsigned char nvs[0x40000];
+	unsigned char nvs[0x3C000];
+	unsigned char header2[0x1000];
+	unsigned char unk2[0x1000];
+	unsigned char mbr3[0x1000];
+	unsigned char mbr4[0x1000];
 	unsigned char sam_iplb[0x3E000];
 	unsigned char sam_ipl[0x3E000];
 	unsigned char idata[0x80000];
@@ -170,6 +177,62 @@ int main(int argc, char **argv){
 	fl = fopen(out,"wb");
 	
 	fwrite(entries->nvs,sizeof(entries->nvs),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/unk.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->unk,sizeof(entries->unk),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/mbr1.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->mbr1,sizeof(entries->mbr1),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/mbr2.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->mbr2,sizeof(entries->mbr2),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/unk2.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->unk2,sizeof(entries->unk2),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/mbr3.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->mbr3,sizeof(entries->mbr3),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/mbr4.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->mbr4,sizeof(entries->mbr4),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/header2.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->header2,sizeof(entries->header2),1,fl);
 	
 	fclose(fl);
 	
