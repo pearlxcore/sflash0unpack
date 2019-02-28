@@ -9,34 +9,34 @@
     0x1000 <- Unk
     0x2000 <- MBR1
     0x3000 <- MBR2
-    0x4000 <- sflash0s0x32 (emc_ipl)
-    0x64000 <- sflash0s0x32b (emc_ipl)
+    0x4000 <- sflash0s0x32b (emc_ipl)
+    0x64000 <- sflash0s0x32 (emc_ipl)
     0xC4000 <- sflash0s0x33 (eap_kbl)
     0x144000 <- sflash0s0x34 (wifi fw)
-    0x204000 <- sflash0s1.cryptx2 (sam_ipl)
-    0x242000 <- sflash0s1.cryptx2b (sam_ipl)
+    0x204000 <- sflash0s1.cryptx2b (sam_ipl)
+    0x242000 <- sflash0s1.cryptx2 (sam_ipl)
     0x280000 <- sflash0s1.cryptx1 (idata)
     0x300000 <- sflash0s1.cryptx39 (bd_hrl?)
     0x380000 <- sflash0s1.cryptx6 (Virtual TRM)
-    0x3C0000 <- sflash0s1.cryptx3 (secure loader, secure kernel, secure modules)
-    0x1080000 <- sflash0s1.cryptx3b (secure loader, secure kernel, secure modules)
+    0x3C0000 <- sflash0s1.cryptx3b (secure loader, secure kernel, secure modules)
+    0x1080000 <- sflash0s1.cryptx3 (secure loader, secure kernel, secure modules)
     0x1D40000 <- sflash0s1.cryptx40 (blank_region)
 */
 
 typedef struct
 {
 	unsigned char header[0x4000];
-	unsigned char emc_ipl[0x60000];
 	unsigned char emc_iplb[0x60000];
+	unsigned char emc_ipl[0x60000];
 	unsigned char eap_kbl[0x80000];
 	unsigned char wifi_fw[0xC0000];
-	unsigned char sam_ipl[0x3E000];
 	unsigned char sam_iplb[0x3E000];
+	unsigned char sam_ipl[0x3E000];
 	unsigned char idata[0x80000];
 	unsigned char bd_hrl[0x80000];
 	unsigned char vtrm[0x40000];
-	unsigned char secure[0xCC0000];
 	unsigned char secureb[0xCC0000];
+	unsigned char secure[0xCC0000];
 	unsigned char blank[0x2C0000];
 } SFLASH0;
 
