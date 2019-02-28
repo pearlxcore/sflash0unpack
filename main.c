@@ -5,23 +5,28 @@
 #include <sys/stat.h>
 
 /*
-    0x0 <- Header
-    0x1000 <- Unk
-    0x2000 <- MBR1
-    0x3000 <- MBR2
-    0x4000 <- sflash0s0x32b (emc_ipl)
-    0x64000 <- sflash0s0x32 (emc_ipl)
-    0xC4000 <- sflash0s0x33 (eap_kbl)
-    0x144000 <- sflash0s0x34 (wifi fw)
-	0x1C4000 <- sflash0s0x38 (nvs)
-    0x204000 <- sflash0s1.cryptx2b (sam_ipl)
-    0x242000 <- sflash0s1.cryptx2 (sam_ipl)
-    0x280000 <- sflash0s1.cryptx1 (idata)
-    0x300000 <- sflash0s1.cryptx39 (bd_hrl?)
-    0x380000 <- sflash0s1.cryptx6 (Virtual TRM)
-    0x3C0000 <- sflash0s1.cryptx3b (secure loader, secure kernel, secure modules)
-    0x1080000 <- sflash0s1.cryptx3 (secure loader, secure kernel, secure modules)
-    0x1D40000 <- sflash0s1.cryptx40 (blank_region)
+    0x0 <- Header (0x1000)
+    0x1000 <- Unk (0x1000)
+    0x2000 <- MBR1 (0x1000) (for sflash0s1.cryptx3b)
+    0x3000 <- MBR2 (0x1000) (for sflash0s1.cryptx3)
+    0x4000 <- sflash0s0x32b (emc_ipl) (0x60000)
+    0x64000 <- sflash0s0x32 (emc_ipl) (0x60000)
+    0xC4000 <- sflash0s0x33 (eap_kbl) (0x80000)
+    0x144000 <- sflash0s0x34 (wifi fw) (0x80000)
+    0x1C4000 <- sflash0s0x38 (nvs) (0xC000)
+    0x1D0000 <- sflash0s0x0 (blank1) (0x30000)
+    0x200000 <- Header2 (0x1000)
+    0x201000 <- Unk 2(0x1000)
+    0x202000 <- MBR3(0x1000) (for sflash0s1.cryptx2b)
+    0x203000 <- MBR4(0x1000) (for sflash0s1.cryptx2)
+    0x204000 <- sflash0s1.cryptx2b (sam_ipl/secure loader) (0x3E000)
+    0x242000 <- sflash0s1.cryptx2 (sam_ipl/secure loader) (0x3E000)
+    0x280000 <- sflash0s1.cryptx1 (idata) (0x80000)
+    0x300000 <- sflash0s1.cryptx39 (bd_hrl?) (0x80000)
+    0x380000 <- sflash0s1.cryptx6 (Virtual TRM) (0x40000)
+    0x3C0000 <- sflash0s1.cryptx3b (secure kernel, secure modules) (0xCC0000)
+    0x1080000 <- sflash0s1.cryptx3 (secure kernel, secure modules) (0xCC0000)
+    0x1D40000 <- sflash0s1.cryptx40 (blank2) (0x2C0000)
 */
 
 typedef struct
@@ -34,7 +39,8 @@ typedef struct
 	unsigned char emc_ipl[0x60000];
 	unsigned char eap_kbl[0x80000];
 	unsigned char wifi_fw[0x80000];
-	unsigned char nvs[0x3C000];
+	unsigned char nvs[0xC000];
+	unsigned char blank[0x30000];
 	unsigned char header2[0x1000];
 	unsigned char unk2[0x1000];
 	unsigned char mbr3[0x1000];
@@ -46,7 +52,7 @@ typedef struct
 	unsigned char vtrm[0x40000];
 	unsigned char secureb[0xCC0000];
 	unsigned char secure[0xCC0000];
-	unsigned char blank[0x2C0000];
+	unsigned char blank2[0x2C0000];
 } SFLASH0;
 
 int main(int argc, char **argv){
@@ -233,6 +239,14 @@ int main(int argc, char **argv){
 	fl = fopen(out,"wb");
 	
 	fwrite(entries->header2,sizeof(entries->header2),1,fl);
+	
+	fclose(fl);
+	
+	sprintf(out,"%s/blank2.bin",argv[2]);
+	
+	fl = fopen(out,"wb");
+	
+	fwrite(entries->blank2,sizeof(entries->blank2),1,fl);
 	
 	fclose(fl);
 	
